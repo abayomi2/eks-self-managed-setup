@@ -1,0 +1,13 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: image-puller-binding
+  namespace: abe
+subjects:
+  - kind: ServiceAccount
+    name: myapp-sa  # Replace with your actual ServiceAccount name if different
+    namespace: abe  # Ensure the namespace is specified
+roleRef:
+  kind: Role
+  name: image-puller
+  apiGroup: rbac.authorization.k8s.io

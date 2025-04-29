@@ -1,0 +1,44 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: abe
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cici-deployment
+  namespace: abe
+  labels:
+    app: cici
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: cici
+  template:
+    metadata:
+      labels:
+        app: cici
+    spec:
+      containers:
+      - name: cici-container
+        image: abayomi2/cici_working:latest
+        ports:
+        - containerPort: 80
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: cici-service
+  namespace: abe
+spec:
+  type: LoadBalancer
+  selector:
+    app: cici
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
