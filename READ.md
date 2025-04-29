@@ -29,6 +29,25 @@ kubectl edit service abe  # Changes apply automatically
 kubectl get nodes
 kubectl get pods -o wide 
 
+# To deploy an image from a private repository
+# Run this to create credential to your private repository in a namespace
+kubectl create secret docker-registry regcred \
+  --docker-username=abayomi2 \
+  --docker-password=<your-password> \
+  --docker-email=<your-email> \
+  --namespace=abe
+
+# Create the deployment using secret
+kubectl create deployment abe \
+  --image=abayomi2/abe-app:2.0 \
+  --namespace=abe
+
+# Run this to update/patch the deployment file 
+kubectl patch deployment abe \
+  -n abe \
+  -p '{"spec": {"template": {"spec": {"imagePullSecrets": [{"name": "regcred"}]}}}}'
+
+
 # initiate the kubeadm on the control-plane server using the public-ip 
 sudo kubeadm init --apiserver-advertise-address=44.223.108.34 --pod-network-cidr=192.168.0.0/16
 
