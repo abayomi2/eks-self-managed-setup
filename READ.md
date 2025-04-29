@@ -18,8 +18,11 @@ kubectl get service
 # You can edit the deployment file to make changes such as the number of replica or images using
 kubectl edit deployment abe
 
+# To reapply the deployment after changes has been made to the deployment file
+kubectl rollout restart deployment abe 
+
 # You can edit the service file to make changes for NodePort or LoadBalancer
-kubectl edit service abe
+kubectl edit service abe  # Changes apply automatically
 
 # Run this command to verify which of the node the application is deployed on 
 # verify the node on which the pod is running on, get the public address and browse for your application on the port
@@ -43,5 +46,11 @@ mkdir -p $HOME/.kube
 sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 sudo chown $(id -u):$(id -g) $HOME/.kube/config
 
-/etc/kubernetes/manifests/etcd.yaml
- /etc/kubernetes/pki/etcd/
+<!-- Use HTTPS via Ingress with TLS
+If you want to expose your app over HTTPS, you need to:
+
+Set up an Ingress Controller (like NGINX or AWS ALB Ingress).
+
+Create a TLS secret with your SSL certificate and private key.
+
+Create an Ingress resource that references the TLS secret and routes traffic to your Service. -->
